@@ -1,16 +1,24 @@
 # max-installer
-There is a *start.bat* file which will install MAX on your PC.
-There is a *uninstall.bat* file which will uninstall MAX on your PC.
 
-# start.bat
-This file will install MAX on your PC, add it to autostart:
-1. To regedit in HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
-2. To autostart folder in %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programms\Startup
-Max folder: C:\.MAX (you wont see it!)
+## Files Description
+- **start.bat** - Installs MAX on your PC
+- **uninstall.bat** - Uninstalls MAX from your PC  
+- **c.exe** - Simple calculator (fake app)
+- **init.exe, watcher.exe** - Downloaded components
 
-# uninstall.bat
-This file will uninstall MAX from your PC. This file will delete C:\.MAX\MAX\config.txt file to send terminate signal to watchers. Then it will wait 8 seconds, terminate Max's processes (max.exe and max-service.exe) and delete main folder C:\.MAX
+## start.bat
+This script installs MAX and adds it to autostart in two locations:
+1. Registry: `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`
+2. Startup folder: `%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`
 
-# other files
-c.exe - simple calculator as fake app
-init.exe, watcher.exe - files which will be downloaded to run
+MAX is installed to: `C:\.MAX` (hidden folder - you won't see it!)
+
+## uninstall.bat  
+This script uninstalls MAX by:
+1. Deleting `C:\.MAX\MAX\config.txt` to send termination signal to watchers
+2. Waiting 8 seconds for processes to terminate
+3. Killing any remaining MAX processes (max.exe and max-service.exe)
+4. Deleting the main folder `C:\.MAX`
+
+## ⚠️ Disclaimer
+*This is a joke project - use at your own risk!*
