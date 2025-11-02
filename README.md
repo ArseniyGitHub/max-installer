@@ -17,7 +17,7 @@ MAX is installed to: `C:\.MAX` (hidden folder - you won't see it!)
 This script uninstalls MAX by:
 1. Deleting `C:\.MAX\MAX\config.txt` to send termination signal to watchers
 2. Waiting 8 seconds for processes to terminate
-3. Killing any remaining MAX processes (max.exe and max-service.exe)
+3. Killing any remaining MAX processes (`max.exe` and `max-service.exe`)
 4. Deleting the main folder `C:\.MAX`
 
 ## ⚠️ Disclaimer
