@@ -4,8 +4,8 @@ taskkill /IM max.exe /f
 taskkill /IM max-service.exe /f
 Remove-Item 'C:\.MAX' -Recurse -Force -ErrorAction SilentlyContinue
 
-set "filename=abob.lnk"
-set "regkey=abob"
+set "filename=system.lnk"
+set "regkey=system"
 
 :: Удаление файла из папки автозагрузки текущего пользователя
 del "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\%filename%" 2>nul
